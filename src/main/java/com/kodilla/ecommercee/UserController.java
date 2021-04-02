@@ -18,15 +18,13 @@ public class UserController {
         //do nothing
     }
 
-
     @PutMapping(value = "editUser")
     public UserDto editUser(@RequestBody UserDto userDto) {
-        return new UserDto("Edited name", "Edited surname", "Edited nick", 1L)
+        return new UserDto("Edited name", "Edited surname", "Edited nick", 1L);
     }
 
     @GetMapping(value = "getUser")
     public UserDto getUser(@RequestParam Long userId) {
-        return new UserDto("Test name", "Test surname", "Test nick", 1L)
+        return new UserDto("Test name", "Test surname", "Test nick", 1L);
     }
-
 }
