@@ -20,17 +20,17 @@ public class CartController {
     }
 
     @PutMapping(value="addProductToCart")
-    public void addProductToCart(ProductDto productDto){
+    public void addProductToCart(@RequestBody ProductDto productDto){
         //do nothing
     }
 
     @DeleteMapping(value="deleteProductFromCart")
-    public void deleteProductFromCart(Long productId){
+    public void deleteProductFromCart(@RequestParam Long productId){
         //do nothing
     }
 
     @PostMapping(value="createOrder")
-    public void createOrder(List<ProductDto> cart){
+    public void createOrder(@RequestBody List<ProductDto> cart){
         //do nothing
     }
 }
