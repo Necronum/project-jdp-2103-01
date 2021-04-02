@@ -19,7 +19,7 @@ public class CartController {
     }
 
     @PutMapping(value="addProductToCart")
-    public void addProductToCart(){
+    public void addProductToCart(@RequestParam Long cartId, @RequestParam Long productId){
         //do nothing
     }
 
