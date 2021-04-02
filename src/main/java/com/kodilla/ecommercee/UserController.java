@@ -1,25 +1,32 @@
 package com.kodilla.ecommercee;
 
 import com.kodilla.ecommercee.domain.UserDto;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("v1/user")
 public class UserController {
 
-    public void createUser(UserDto userDto) {
+    @PostMapping(value = "createUser", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createUser(@RequestBody UserDto userDto) {
         //do nothing
     }
 
-    public void deleteUser(UserDto userDto) {
+    @DeleteMapping(value = "deleteUser")
+    public void deleteUser(@RequestParam Long userId) {
         //do nothing
     }
 
-    public void editUser(UserDto userDto) {
-        //do nothing
+
+    @PutMapping(value = "editUser")
+    public UserDto editUser(@RequestBody UserDto userDto) {
+        return new UserDto("Edited name", "Edited surname", "Edited nick", 1L)
     }
 
-    public void getUser(Long userId) {
-        //do nothing
+    @GetMapping(value = "getUser")
+    public UserDto getUser(@RequestParam Long userId) {
+        return new UserDto("Test name", "Test surname", "Test nick", 1L)
     }
 
 }
