@@ -1,36 +1,35 @@
 package com.kodilla.ecommercee;
 
-import com.kodilla.ecommercee.domain.ProductDto;
+import com.kodilla.ecommercee.domain.CartDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(value="/v1/cart")
 public class CartController {
     @PostMapping(value="createEmptyCart")
-    public List<ProductDto> createEmptyCart(){
-        return new ArrayList<>();
+    public CartDto createEmptyCart(){
+        return new CartDto();
     }
 
     @GetMapping(value="getCart")
-    public List<ProductDto> getCart(){
-        return new ArrayList<>();
+    public CartDto getCart(@RequestParam Long cartId){
+        return new CartDto(1L);
     }
 
     @PutMapping(value="addProductToCart")
-    public void addProductToCart(@RequestBody ProductDto productDto){
+    public void addProductToCart(){
         //do nothing
     }
 
     @DeleteMapping(value="deleteProductFromCart")
-    public void deleteProductFromCart(@RequestParam Long productId){
+    public void deleteProductFromCart(@RequestBody CartDto cartDto, @RequestParam Long productId){
         //do nothing
     }
 
     @PostMapping(value="createOrder")
-    public void createOrder(@RequestBody List<ProductDto> cart){
+    public void createOrder(@RequestBody CartDto cartDto){
         //do nothing
     }
 }
