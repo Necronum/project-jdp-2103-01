@@ -24,12 +24,12 @@ public class CartController {
     }
 
     @DeleteMapping(value="deleteProductFromCart")
-    public void deleteProductFromCart(@RequestBody CartDto cartDto, @RequestParam Long productId){
+    public void deleteProductFromCart(@RequestParam Long cartId, @RequestParam Long productId){
         //do nothing
     }
 
     @PostMapping(value="createOrder")
-    public void createOrder(@RequestBody CartDto cartDto){
+    public void createOrder(@RequestParam Long cartId){
         //do nothing
     }
 }
