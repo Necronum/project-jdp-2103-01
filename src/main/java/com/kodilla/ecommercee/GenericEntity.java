@@ -28,4 +28,8 @@ public class GenericEntity {
 
         this.value = value;
     }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }
