@@ -1,8 +1,10 @@
 package com.kodilla.ecommercee.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
-@Deprecated
 public class User {
+    @Id
+    Long id;
 }
