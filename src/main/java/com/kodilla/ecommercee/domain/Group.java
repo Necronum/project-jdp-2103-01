@@ -26,12 +26,12 @@ public class Group {
     @Column(name = "NAME")
     private String name;
 
-    @OneToMany(
-            targetEntity = Product.class,
-            mappedBy = "ID",
-            fetch = FetchType.EAGER
-    )
-    private List<Product> products = new ArrayList<>();
+//    @OneToMany(
+//            targetEntity = Product.class,
+//            mappedBy = "ID",
+//            fetch = FetchType.EAGER
+//    )
+//    private List<Product> products = new ArrayList<>();
 
     public Group(String name){
         this.name = name;
