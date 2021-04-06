@@ -3,37 +3,38 @@ package com.kodilla.ecommercee.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
+@Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "PRODUCTS")
+@Table(name = "products")
 public class Product {
 
-    private Long id;
-    private String productName;
-
     @Id
-    @GeneratedValue
     @NotNull
-    @Column(name = "ID")
-    public Long getId() {
-        return this.id;
-    }
-    @Column(name = "PRODUCT_NAME" )
-    public String getProductName() {
-        return this.productName;
-    }
+    @GeneratedValue
+    private Long id;
 
-    private void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "name")
+    private String name;
 
-    private void setProductName(String productName) {
-        this.productName = productName;
-    }
+    @Column(name = "description")
+    private String description;
+
+    @Column (name = "price")
+    private double price;
+
+    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_group_id")
+    private Group group;
+
+    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_cart_id")
+    private Cart cart;
+
 }
