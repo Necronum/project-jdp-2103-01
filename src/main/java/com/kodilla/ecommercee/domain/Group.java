@@ -14,6 +14,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Group {
+    @Column(name = "id", unique = true)
     @Id
     @GeneratedValue
     private Long id;
