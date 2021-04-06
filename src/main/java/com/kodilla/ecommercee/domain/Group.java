@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Group {
 
     @Column(name = "ID", unique = true)
@@ -26,12 +28,12 @@ public class Group {
     @Column(name = "NAME")
     private String name;
 
-//    @OneToMany(
-//            targetEntity = Product.class,
-//            mappedBy = "ID",
-//            fetch = FetchType.EAGER
-//    )
-//    private List<Product> products = new ArrayList<>();
+    @OneToMany(
+            targetEntity = Product.class,
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.EAGER
+    )
+    private List<Product> products = new ArrayList<>();
 
     public Group(String name){
         this.name = name;

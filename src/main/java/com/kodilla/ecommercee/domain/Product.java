@@ -10,11 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@AllArgsConstructor
+@Entity
 public class Product {
-
+    @Id
     private Long id;
-
-    private String productName;
 }
