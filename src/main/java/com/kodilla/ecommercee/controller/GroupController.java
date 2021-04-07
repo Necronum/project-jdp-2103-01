@@ -15,7 +15,7 @@ public class GroupController {
     public List<GroupDto> getGroups(){
         return new ArrayList<>();
     }
-
+  
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public GroupDto getGroup(@PathVariable Long groupId){
