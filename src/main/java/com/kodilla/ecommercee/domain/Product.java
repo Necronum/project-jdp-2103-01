@@ -4,37 +4,42 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "products")
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "PRODUCTS")
 public class Product {
-
     @Id
-    @NotNull
     @GeneratedValue
+    @NotNull
+    @Column(name = "PRODUCT_ID", unique = true)
     private Long id;
 
-    @Column(name = "name")
+    @NotNull
+    @Column(name = "PRODUCT_NAME")
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column (name = "price")
+
+    @NotNull
+    @Column (name = "PRICE")
     private double price;
 
-    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_group_id")
+    @ManyToOne
+    @JoinColumn(name = "GROUP_ID")
     private Group group;
 
-    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_cart_id")
-    private Cart cart;
-
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
+    private List<Cart> carts;
 }

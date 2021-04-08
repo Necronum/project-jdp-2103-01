@@ -13,31 +13,30 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name="GROUPS")
+@Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Table(name="GROUPS")
 public class Group {
-
-    @Column(name = "ID", unique = true)
     @Id
     @GeneratedValue
     @NotNull
+    @Column(name = "GROUP_ID", unique = true)
     private Long id;
 
-    @Column(name = "NAME")
+
+    @NotNull
+    @Column(name = "GROUP_NAME")
     private String name;
 
     @OneToMany(
             targetEntity = Product.class,
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER
+            mappedBy = "group",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
     )
     private List<Product> products = new ArrayList<>();
-
-    public Group(String name){
-        this.name = name;
-    }
 }

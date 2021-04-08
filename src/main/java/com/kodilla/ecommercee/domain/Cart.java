@@ -3,30 +3,38 @@ package com.kodilla.ecommercee.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "carts")
+@Entity
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+@Table(name="CARTS")
 public class Cart {
 
     @Id
     @GeneratedValue
+    @NotNull
+    @Column(name = "CART_ID", unique = true)
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    @JoinColumn(name = "ID")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "JOIN_CARTS_PRODUCTS",
-            joinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
+            joinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "CART_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
     )
     private List<Product> products = new ArrayList<>();
 }
