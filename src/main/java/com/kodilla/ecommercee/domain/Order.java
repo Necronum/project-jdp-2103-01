@@ -22,7 +22,6 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "ORDER_ID", unique = true)
     private Long id;
 
@@ -44,11 +43,4 @@ public class Order {
     private LocalDateTime updatedAt;
 
 
-    public Order(User user, Cart cart, OrderStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.user = user;
-        this.cart = cart;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
 }
