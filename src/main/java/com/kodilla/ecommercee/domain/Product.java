@@ -33,13 +33,19 @@ public class Product {
 
 
     @NotNull
-    @Column (name = "PRICE")
+    @Column(name = "PRICE")
     private double price;
 
-    @ManyToOne
+    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "GROUP_ID")
     private Group group;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Cart> carts;
+
+    public Product(@NotNull String name, String description, @NotNull double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 }
