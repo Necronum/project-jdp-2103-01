@@ -5,6 +5,7 @@ import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
@@ -30,6 +31,9 @@ public class OrderCRUDTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CartRepository cartRepository;
 
     @Test
     public void shouldSaveOrderInRepository() {
@@ -63,10 +67,10 @@ public class OrderCRUDTest {
 
         orderRepository.delete(order);
         Long cartId = order.getCart().getId();
-        Optional<User> userFromRepository = userRepository.findById(cartId);
+        Optional<Cart> cartFromRepository = cartRepository.findById(cartId);
 
         assertEquals(0, orderRepository.count());
-        assertFalse(userFromRepository.isPresent());
+        assertTrue(cartFromRepository.isEmpty());
     }
 
     @Test
