@@ -70,7 +70,7 @@ public class OrderCRUDTest {
         Optional<Cart> cartFromRepository = cartRepository.findById(cartId);
 
         assertEquals(0, orderRepository.count());
-        assertTrue(cartFromRepository.isEmpty());
+        assertFalse(cartFromRepository.isPresent());
     }
 
     @Test
