@@ -21,6 +21,9 @@ public class GroupEntityTestSuite {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Test
     public void testDeleteById(){
         //Given
@@ -97,19 +100,46 @@ public class GroupEntityTestSuite {
     public void testGroupWithProduct(){
         //Given
         Group group = new Group("Test group");
-        List<Product> productsList = new ArrayList<>();
-        Product product = new Product();
-        productsList.add(product);
-        group.setProducts(productsList);
+        Product product = new Product("Shirt", "Shirt with dog", 200.20);
+        group.getProducts().add(product);
+        product.setGroup(group);
 
         //When
         groupRepository.save(group);
 
         //Then
         Long id = group.getId();
-        Assert.assertNotEquals(0, id, 0000.1);
+        Long productId = product.getId();
+        Optional<Group> groupFromRepository = groupRepository.findById(id);
+        Optional<Product> productFromRepository = productRepository.findById(productId);
+        Assert.assertTrue(groupFromRepository.isPresent());
+        Assert.assertTrue(productFromRepository.isPresent());
 
         //CleanUp
         groupRepository.deleteById(id);
+    }
+
+    @Test
+    public void testProductAfterGroupDelete(){
+        //Given
+        Group group = new Group("Test group");
+        Product product = new Product("Shirt", "Shirt with dog", 200.20);
+        group.getProducts().add(product);
+        product.setGroup(group);
+
+        //When
+        groupRepository.save(group);
+        Long id = group.getId();
+        groupRepository.deleteById(id);
+
+        //Then
+        Long productId = product.getId();
+        Optional<Group> groupFromRepository = groupRepository.findById(id);
+        Optional<Product> productFromRepository = productRepository.findById(productId);
+        Assert.assertFalse(groupFromRepository.isPresent());
+        Assert.assertFalse(productFromRepository.isPresent());
+
+        //CleanUp
+        //groupRepository.deleteById(id);
     }
 }
