@@ -47,25 +47,13 @@ public class ProductEntityTestSuite {
     }
 
     @Test
-    public void testCreateProduct() {
-        //Given
-        Product product = new Product("Test Product", "Test Description", 25.4);
-
-        //When
-        Product savedProduct = productRepository.save(product);
-
-        //Then
-        assertEquals("Test Product", savedProduct.getName());
-    }
-
-    @Test
     public void testUpdateProduct() {
         //Given
         Product product = new Product("Test Product", "Test Description", 25.4);
-        product.setPrice(45.5);
 
         //When
         Product updatedProduct = productRepository.save(product);
+        updatedProduct.setPrice(45.5);
 
         //Then
         assertEquals(45.5, updatedProduct.getPrice(), 0000000.1);
