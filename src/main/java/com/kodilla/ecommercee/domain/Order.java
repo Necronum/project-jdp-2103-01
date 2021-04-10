@@ -1,10 +1,7 @@
 package com.kodilla.ecommercee.domain;
 
 import com.kodilla.ecommercee.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -24,7 +22,6 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "ORDER_ID", unique = true)
     private Long id;
 
@@ -35,6 +32,7 @@ public class Order {
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
+    @Builder.Default
     @Enumerated(value = EnumType.STRING)
     private OrderStatus status = OrderStatus.NEW;
 
@@ -43,4 +41,6 @@ public class Order {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+
 }
