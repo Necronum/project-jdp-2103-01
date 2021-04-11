@@ -1,11 +1,9 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.OrderDto;
-import com.kodilla.ecommercee.domain.OrderDto.RichOrderDto;
 import com.kodilla.ecommercee.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +17,13 @@ public class OrderController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<RichOrderDto> getAllOrders() {
+    public List<OrderDto> getAllOrders() {
         return orderService.getOrders();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> getOrderById(@PathVariable Long id) {
+    public OrderDto getOrderById(@PathVariable Long id) {
         return orderService.getOrderById(id);
     }
 
@@ -37,7 +35,7 @@ public class OrderController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
+    public OrderDto updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
         return orderService.updateOrder(id, orderDto);
     }
 

@@ -2,14 +2,14 @@ package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
-import com.kodilla.ecommercee.domain.OrderDto.RichOrderDto;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -21,16 +21,15 @@ public class OrderService {
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
 
-    public List<RichOrderDto> getOrders() {
+    public List<OrderDto> getOrders() {
         List<Order> orders = orderRepository.findAll();
-        return orderMapper.mapToRichOrderDtoList(orders);
+        return orderMapper.mapToOrderDtoList(orders);
     }
 
-    public ResponseEntity<?> getOrderById(Long id) {
+    public OrderDto getOrderById(Long id) {
         return orderRepository.findById(id)
-                .map(orderMapper::mapToRichOrderDto)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(orderMapper::mapToOrderDto)
+                .orElseThrow(() -> getOrderNotFoundException(id));
     }
 
     public void addOrder(OrderDto orderDto) {
@@ -38,18 +37,14 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public ResponseEntity<?> updateOrder(Long id, OrderDto orderDto) {
+    public OrderDto updateOrder(Long id, OrderDto orderDto) {
         return orderRepository.findById(id)
                 .map(order -> {
                     Order updatedOrder = updateOrderFields(orderDto, order);
                     orderRepository.save(updatedOrder);
-                    return ResponseEntity.accepted().build();
+                    return orderMapper.mapToOrderDto(updatedOrder);
                 })
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
+                .orElseThrow(() -> getOrderNotFoundException(id));
     }
 
     private Order updateOrderFields(OrderDto orderDto, Order order) {
@@ -60,5 +55,13 @@ public class OrderService {
             order.setStatus(orderDto.getStatus());
         }
         return order;
+    }
+
+    private ResponseStatusException getOrderNotFoundException(Long id) {
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, "Order with id: " + id + " not found");
+    }
+
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
     }
 }

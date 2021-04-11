@@ -2,11 +2,11 @@ package com.kodilla.ecommercee.domain;
 
 import com.kodilla.ecommercee.OrderStatus;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Value
+@Data
 @Builder
 public class OrderDto {
     Long id;
@@ -16,15 +16,15 @@ public class OrderDto {
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 
-    @Value
-    @Builder
-    public static class RichOrderDto {
-        Long id;
-        User user;
-        Cart cart;
-        OrderStatus status;
-        LocalDateTime createdAt;
-        LocalDateTime updatedAt;
-    }
+//    @Value
+//    @Builder
+//    public static class RichOrderDto {
+//        Long id;
+//        User user;
+//        Cart cart;
+//        OrderStatus status;
+//        LocalDateTime createdAt;
+//        LocalDateTime updatedAt;
+//    }
 
 }

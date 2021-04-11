@@ -3,7 +3,6 @@ package com.kodilla.ecommercee.mapper;
 import com.kodilla.ecommercee.OrderStatus;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
-import com.kodilla.ecommercee.domain.OrderDto.RichOrderDto;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -32,28 +31,10 @@ public class OrderMapper {
                         .build();
     }
 
-    public RichOrderDto mapToRichOrderDto(Order order) {
-        return RichOrderDto.builder()
-                .id(order.getId())
-                .user(order.getUser())
-                .cart(order.getCart())
-                .status(order.getStatus())
-                .createdAt(order.getCreatedAt())
-                .updatedAt(order.getUpdatedAt())
-                .build();
-    }
-
     public List<OrderDto> mapToOrderDtoList(List<Order> orders) {
         return orders
                 .stream()
                 .map(this::mapToOrderDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<RichOrderDto> mapToRichOrderDtoList(List<Order> orders) {
-        return orders
-                .stream()
-                .map(this::mapToRichOrderDto)
                 .collect(Collectors.toList());
     }
 
@@ -69,7 +50,7 @@ public class OrderMapper {
     }
 
     private ResponseStatusException resourceNotFound(String s) {
-        return new ResponseStatusException(HttpStatus.BAD_REQUEST, s);
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, s);
     }
 
 }
