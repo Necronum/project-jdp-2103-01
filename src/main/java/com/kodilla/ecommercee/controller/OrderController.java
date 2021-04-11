@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.domain.OrderDto.RichOrderDto;
 import com.kodilla.ecommercee.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class OrderController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<OrderDto> getAllOrders() {
+    public List<RichOrderDto> getAllOrders() {
         return orderService.getOrders();
     }
 

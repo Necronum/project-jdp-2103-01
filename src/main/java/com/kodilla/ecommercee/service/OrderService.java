@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.domain.OrderDto.RichOrderDto;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
@@ -20,14 +21,14 @@ public class OrderService {
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
 
-    public List<OrderDto> getOrders() {
+    public List<RichOrderDto> getOrders() {
         List<Order> orders = orderRepository.findAll();
-        return orderMapper.mapToOrderDtoList(orders);
+        return orderMapper.mapToRichOrderDtoList(orders);
     }
 
     public ResponseEntity<?> getOrderById(Long id) {
         return orderRepository.findById(id)
-                .map(orderMapper::mapToOrderDto)
+                .map(orderMapper::mapToRichOrderDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -52,8 +53,8 @@ public class OrderService {
     }
 
     private Order updateOrderFields(OrderDto orderDto, Order order) {
-        if (orderDto.getUser() != null) {
-            order.setUser(userRepository.findById(orderDto.getUser().getId()).get());
+        if (orderDto.getUserId() != null) {
+            order.setUser(userRepository.findById(orderDto.getUserId()).get());
         }
         if (orderDto.getStatus() != null) {
             order.setStatus(orderDto.getStatus());

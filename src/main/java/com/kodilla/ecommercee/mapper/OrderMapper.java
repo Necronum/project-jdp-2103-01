@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.mapper;
 import com.kodilla.ecommercee.OrderStatus;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.domain.OrderDto.RichOrderDto;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -23,12 +24,23 @@ public class OrderMapper {
     public OrderDto mapToOrderDto(Order order) {
         return OrderDto.builder()
                         .id(order.getId())
-                        .user(order.getUser())
-                        .cart(order.getCart())
+                        .userId(order.getUser().getId())
+                        .cartId(order.getCart().getId())
                         .status(order.getStatus())
                         .createdAt(order.getCreatedAt())
                         .updatedAt(order.getUpdatedAt())
                         .build();
+    }
+
+    public RichOrderDto mapToRichOrderDto(Order order) {
+        return RichOrderDto.builder()
+                .id(order.getId())
+                .user(order.getUser())
+                .cart(order.getCart())
+                .status(order.getStatus())
+                .createdAt(order.getCreatedAt())
+                .updatedAt(order.getUpdatedAt())
+                .build();
     }
 
     public List<OrderDto> mapToOrderDtoList(List<Order> orders) {
@@ -38,11 +50,18 @@ public class OrderMapper {
                 .collect(Collectors.toList());
     }
 
+    public List<RichOrderDto> mapToRichOrderDtoList(List<Order> orders) {
+        return orders
+                .stream()
+                .map(this::mapToRichOrderDto)
+                .collect(Collectors.toList());
+    }
+
     public Order mapToOrder(OrderDto orderDto) {
         return Order.builder()
-                .user(userRepository.findById(orderDto.getUser().getId())
+                .user(userRepository.findById(orderDto.getUserId())
                         .orElseThrow(() -> resourceNotFound("User not found")))
-                .cart(cartRepository.findById(orderDto.getCart().getId())
+                .cart(cartRepository.findById(orderDto.getCartId())
                         .orElseThrow(() -> resourceNotFound("Cart not found")))
                 .status(OrderStatus.parseString(orderDto.getStatus().toString())
                         .orElseThrow(() -> resourceNotFound("Unknown status")))
