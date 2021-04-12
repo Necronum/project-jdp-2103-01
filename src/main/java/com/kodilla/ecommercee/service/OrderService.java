@@ -1,15 +1,15 @@
 package com.kodilla.ecommercee.service;
 
+import com.kodilla.ecommercee.OrderStatus;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.exception.ResourceNotFoundException;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class OrderService {
     public OrderDto getOrderById(Long id) {
         return orderRepository.findById(id)
                 .map(orderMapper::mapToOrderDto)
-                .orElseThrow(() -> getOrderNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Order with id: " + id + " not found"));
     }
 
     public void addOrder(OrderDto orderDto) {
@@ -44,21 +44,19 @@ public class OrderService {
                     orderRepository.save(updatedOrder);
                     return orderMapper.mapToOrderDto(updatedOrder);
                 })
-                .orElseThrow(() -> getOrderNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Order with id: " + id + " not found"));
     }
 
     private Order updateOrderFields(OrderDto orderDto, Order order) {
         if (orderDto.getUserId() != null) {
-            order.setUser(userRepository.findById(orderDto.getUserId()).get());
+            order.setUser(userRepository.findById(orderDto.getUserId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User with id: " + orderDto.getUserId() + " not found")));
         }
         if (orderDto.getStatus() != null) {
-            order.setStatus(orderDto.getStatus());
+            order.setStatus(OrderStatus.parseString(orderDto.getStatus())
+                    .orElseThrow(() -> new IllegalArgumentException("Unknown order status")));
         }
         return order;
-    }
-
-    private ResponseStatusException getOrderNotFoundException(Long id) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, "Order with id: " + id + " not found");
     }
 
     public void deleteOrder(Long id) {
