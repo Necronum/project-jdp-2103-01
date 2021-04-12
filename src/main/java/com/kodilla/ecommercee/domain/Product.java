@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,18 +32,15 @@ public class Product {
     @Column(name = "DESCRIPTION")
     private String description;
 
-
     @NotNull
     @Column(name = "PRICE")
     private double price;
 
     @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "GROUP_ID")
-    @JsonIgnoreProperties("products")
     private Group group;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
-    @JsonIgnoreProperties("products")
     private List<Cart> carts = new ArrayList<>();
 
     public Product(@NotNull String name, String description, @NotNull double price) {
