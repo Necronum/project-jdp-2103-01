@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.GroupDto;
-import com.kodilla.ecommercee.error.GroupNotFoundException;
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.GroupDbService;
 import org.springframework.beans.factory.annotation.Autowired;
