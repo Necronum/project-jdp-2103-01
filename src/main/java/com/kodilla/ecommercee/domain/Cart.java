@@ -26,15 +26,20 @@ public class Cart {
     @Column(name = "CART_ID", unique = true)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "JOIN_CARTS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "CART_ID")},
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
     )
     private List<Product> products = new ArrayList<>();
+
+    public Cart(User user, List<Product> products) {
+        this.user = user;
+        this.products = products;
+    }
 }
