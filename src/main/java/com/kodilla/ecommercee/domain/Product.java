@@ -20,11 +20,9 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue
-    @NotNull
     @Column(name = "PRODUCT_ID", unique = true)
     private Long id;
 
-    @NotNull
     @Column(name = "PRODUCT_NAME")
     private String name;
 
@@ -32,7 +30,7 @@ public class Product {
     private String description;
 
 
-    @NotNull
+
     @Column(name = "PRICE")
     private double price;
 
@@ -43,7 +41,7 @@ public class Product {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Cart> carts;
 
-    public Product(@NotNull String name, String description, @NotNull double price) {
+    public Product(String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;

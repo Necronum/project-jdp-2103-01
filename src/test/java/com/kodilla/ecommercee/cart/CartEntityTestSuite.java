@@ -74,9 +74,8 @@ public class CartEntityTestSuite {
         Product product1 = new Product("product 2", "test description2", 2.2);
         Cart cart = new Cart();
 
-        cart.getProducts().add(product);
-
         //When
+        cart.getProducts().add(product);
         cartRepository.save(cart);
         String name = product.getName();
         cart.getProducts().add(product1);
