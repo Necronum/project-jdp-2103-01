@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,7 +32,6 @@ public class Product {
     @Column(name = "DESCRIPTION")
     private String description;
 
-
     @NotNull
     @Column(name = "PRICE")
     private double price;
@@ -41,7 +41,7 @@ public class Product {
     private Group group;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
-    private List<Cart> carts;
+    private List<Cart> carts = new ArrayList<>();
 
     public Product(@NotNull String name, String description, @NotNull double price) {
         this.name = name;

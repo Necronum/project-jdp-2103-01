@@ -10,8 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -19,17 +17,15 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name="GROUPS")
+@Table(name= "CATEGORY")
 public class Group {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "GROUP_ID", unique = true)
     private Long id;
 
-
-    @NotNull
-    @Column(name = "GROUP_NAME")
+    @Column(name = "NAME")
     private String name;
 
     @OneToMany(
@@ -39,4 +35,8 @@ public class Group {
             fetch = FetchType.LAZY
     )
     private List<Product> products = new ArrayList<>();
+
+    public Group(String name){
+        this.name=name;
+    }
 }
