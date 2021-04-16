@@ -49,7 +49,7 @@ public class CartController {
 
     @PostMapping("/{cartId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@PathVariable Long cartId){
-        log.info("Order form cart: " + cartId + " has been added to car ");
+    public void createOrder(@RequestBody CartDto cartDto){
+        cartDbService.saveCart(cartMapper.mapToCart(cartDto));
     }
 }
