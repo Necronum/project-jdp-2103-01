@@ -7,7 +7,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,10 +24,10 @@ public class Order {
     @Column(name = "ORDER_ID", unique = true)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
@@ -41,6 +40,5 @@ public class Order {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
 
 }
