@@ -38,10 +38,10 @@ public class GroupController {
         groupService.saveGroup(groupMapper.mapToGroup(groupDto));
     }
 
-    @PutMapping()
+    @PutMapping("/{groupId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public GroupDto updateGroup(@RequestBody GroupDto groupDto){
-        return groupMapper.mapToGroupDto(groupService.saveGroup(groupMapper.mapToGroup(groupDto)));
+    public GroupDto updateGroup(@PathVariable Long groupId,@RequestBody GroupDto groupDto){
+        return groupService.updateGroup(groupId, groupDto);
     }
 
     @DeleteMapping("/{groupId}")

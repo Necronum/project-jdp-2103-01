@@ -67,8 +67,8 @@ public class GroupEntityTestSuite {
         //Then
         Long id = group.getId();
         String name = group.getName();
-        List<Group> foundGroup = groupRepository.findByName(name);
-        Assert.assertEquals(name ,foundGroup.get(0).getName());
+        Optional<Group> foundGroup = groupRepository.findByName(name);
+        Assert.assertEquals(name ,foundGroup.get().getName());
 
         //CleanUp
         groupRepository.deleteById(id);
@@ -88,9 +88,9 @@ public class GroupEntityTestSuite {
         //Then
         Long id = group.getId();
         String name = group.getName();
-        List<Group> foundGroup = groupRepository.findByName(name);
-        Assert.assertEquals(1 ,foundGroup.size());
-        Assert.assertEquals(updatedName ,foundGroup.get(0).getName());
+        Optional<Group> foundGroup = groupRepository.findByName(name);
+        Assert.assertTrue(foundGroup.isPresent());
+        Assert.assertEquals(updatedName ,foundGroup.get().getName());
 
         //CleanUp
         groupRepository.deleteById(id);
