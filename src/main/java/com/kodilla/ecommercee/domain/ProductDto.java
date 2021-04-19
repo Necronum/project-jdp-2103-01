@@ -9,4 +9,7 @@ public class ProductDto {
 
     private Long id;
     private String productName;
+    private String description;
+    private Double price;
+    private Long groupId;
 }
