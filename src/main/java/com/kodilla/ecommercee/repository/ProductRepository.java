@@ -10,4 +10,6 @@ import javax.transaction.Transactional;
 @Repository
 public interface ProductRepository extends JpaRepository <Product, Long> {
 
+    void deleteByName (String name);
+
 }
