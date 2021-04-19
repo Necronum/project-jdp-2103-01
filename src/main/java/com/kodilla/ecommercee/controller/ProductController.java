@@ -46,16 +46,7 @@ public class ProductController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        Product product1 = productDbService.getProduct(id).get();
-        if (productDto.getDescription() != null) {
-            product1.setDescription(productDto.getDescription());
-        } if (productDto.getPrice() != 0) {
-            product1.setPrice(productDto.getPrice());
-        } if (productDto.getProductName() != null){
-            product1.setName(productDto.getProductName());
-        }
-        Product savedProduct = productDbService.saveProduct(product1);
-        return productMapper.mapToProductDto(savedProduct);
+               return productDbService.updateProduct(id, productDto);
     }
 
     @DeleteMapping("/{id}")
