@@ -21,7 +21,6 @@ import java.util.List;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     @Column(name = "GROUP_ID", unique = true)
     private Long id;
 
@@ -37,6 +36,11 @@ public class Group {
     private List<Product> products = new ArrayList<>();
 
     public Group(String name){
+        this.name=name;
+    }
+
+    public Group(Long id, String name){
+        this.id =id;
         this.name=name;
     }
 }
