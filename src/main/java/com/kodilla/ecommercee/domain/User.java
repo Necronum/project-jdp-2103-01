@@ -56,6 +56,9 @@ public class User {
     )
     private List<Order> orderList;
 
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
+    private Cart cart;
+
     public User(@NotNull String firstname, @NotNull String lastname, @NotNull String email, String phone, @NotNull String city, @NotNull String street, @NotNull String zipcode, @NotNull boolean isActiveStatus, @NotNull int userKey) {
         this.firstname = firstname;
         this.lastname = lastname;
