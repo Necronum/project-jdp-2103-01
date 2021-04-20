@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "USERS")
 public class User {
@@ -28,6 +27,7 @@ public class User {
     @NotNull
     private String lastname;
 
+    @NotNull
     @Column(unique = true)
     private String email;
 
@@ -56,4 +56,26 @@ public class User {
     )
     private List<Order> orderList;
 
+    public User(@NotNull String firstname, @NotNull String lastname, @NotNull String email, String phone, @NotNull String city, @NotNull String street, @NotNull String zipcode, @NotNull boolean isActiveStatus, @NotNull int userKey) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+        this.isActiveStatus = isActiveStatus;
+        this.userKey = userKey;
+    }
+
+    public User() {
+        this.firstname = "";
+        this.lastname = "";
+        this.email = "";
+        this.city = "";
+        this.street = "";
+        this.zipcode = "";
+        this.isActiveStatus = false;
+        this.userKey = -1;
+    }
 }

@@ -91,7 +91,7 @@ public class OrderCRUDTest {
     }
 
     private Order prepareOrder(String productName, String description, double price) {
-        User client = new User();
+        User client = new User("John", "Doe", "jdoe@example.com", null, "Warsaw", "Wymyślona 1/1", "00-000", true, 1);
         Cart cart = new Cart();
         Product product = new Product(productName, description, price);
         cart.setProducts(Arrays.asList(product));
