@@ -63,7 +63,7 @@ public class CartController {
                     cartRepository.save(cart);
                     return cartMapper.mapToCartDto(cart);
                 })
-                .orElseThrow(() -> new CartNotFoundException("Group not found!"));
+                .orElseThrow(() -> new CartNotFoundException("Cart not found!"));
     }
 
     @PostMapping("/{cartId}")
