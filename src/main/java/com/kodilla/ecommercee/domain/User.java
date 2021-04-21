@@ -80,4 +80,17 @@ public class User {
         this.isActiveStatus = false;
         this.userKey = -1;
     }
+
+    public User(Long id, @NotNull String firstname, @NotNull String lastname, @NotNull String email, String phone, @NotNull String city, @NotNull String street, @NotNull String zipcode, @NotNull boolean isActiveStatus, @NotNull int userKey) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+        this.isActiveStatus = isActiveStatus;
+        this.userKey = userKey;
+    }
 }
