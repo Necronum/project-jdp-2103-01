@@ -1,5 +1,8 @@
 package com.kodilla.ecommercee.user;
 
+import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.Order;
+import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
@@ -7,52 +10,85 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class UserEntityTestSuite {
 
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     OrderRepository orderRepository;
-
     @Autowired
     CartRepository cartRepository;
 
-
     @Test
     public void shouldSaveUserInRepository() {
-//        User user = User.builder()
-//                .username("yolo")
-//                .firstname("Robert")
-//                .lastname("Maklowicz")
-//                .email("rob@example.com")
-//                .build();
+        User user = getFakeUser();
+        userRepository.save(user);
 
-//        userRepository.save(user);
-//
-//        Long id = user.getId();
-//        Optional<User> userFromRepository = userRepository.findById(id);
+        Long id = user.getId();
+        Optional<User> userFromRepository = userRepository.findById(id);
 
-//        assertTrue(userFromRepository.isPresent());
+        assertTrue(userFromRepository.isPresent());
     }
-
 
     @Test
-    public void shouldShouldRemoveUserAndOrderFromRepository() {
-//        Order order = Order.builder()
-//                .build();
+    public void shouldUpdateUserInRepository() {
+        User user = getFakeUser();
+        userRepository.save(user);
 
+        Long id = user.getId();
+        userRepository.findById(id)
+                .ifPresent(foundUser -> {
+                    foundUser.setActiveStatus(false);
+                    userRepository.save(foundUser);
+                });
+        User userFromRepository = userRepository.findById(id).get();
 
-
-//        userRepository.save();
-
-//        userRepository.deleteById(u);
-
-//        assertEquals(1, userRepository.count());
-//        assertEquals(0, orderRepository.count());
+        assertFalse(userFromRepository.isActiveStatus());
     }
+
+    @Test
+    public void shouldRemoveUserAndLeaveOrderInRepository() {
+        User user = getFakeUser();
+        Order order = new Order();
+        order.addUser(user);
+        orderRepository.save(order);
+
+        order.setUser(null);
+        orderRepository.save(order);
+        Long id = user.getId();
+        userRepository.deleteById(id);
+
+        assertEquals(0, userRepository.count());
+        assertEquals(1, orderRepository.count());
+    }
+
+    @Test
+    public void shouldRemoveUserAndLeaveCartInRepository() {
+        User user = getFakeUser();
+        Cart cart = new Cart();
+        user.setCart(cart);
+        userRepository.save(user);
+
+        Long id = user.getId();
+        userRepository.deleteById(id);
+
+        assertEquals(1, cartRepository.count());
+        assertEquals(0, userRepository.count());
+    }
+
+    private User getFakeUser() {
+        return new User("Robert", "Maklowicz", "rob@example.com",
+                "600581879","Krakow", "Szewska 1/1", "30-000", true, 1);
+    }
+
 }
