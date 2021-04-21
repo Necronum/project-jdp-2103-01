@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.OrderStatus;
+import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
 import com.kodilla.ecommercee.exception.ResourceNotFoundException;
@@ -61,5 +62,9 @@ public class OrderService {
 
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
     }
 }
