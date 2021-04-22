@@ -24,7 +24,10 @@ public class Order {
     @Column(name = "ORDER_ID", unique = true)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(targetEntity = User.class,
+                cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
+                fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
@@ -40,5 +43,10 @@ public class Order {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void addUser(User user) {
+        this.user = user;
+        user.getOrderList().add(this);
+    }
 
 }
